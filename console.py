@@ -22,6 +22,7 @@ class HBNBCommand(cmd.Cmd):
             Exits command line interface
             after EOF signal
         """
+        print()
         return True
 
     def do_create(self, arg):
