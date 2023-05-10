@@ -7,6 +7,9 @@ class TestBaseModel(unittest.TestCase):
     """Base model test suite"""
 
     test_instance_id(self):
+        """
+        Test that a Base model instance has a unique id when created
+        """
         bm1 = BaseModel()
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
