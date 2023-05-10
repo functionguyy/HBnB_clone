@@ -2,7 +2,6 @@ import unittest
 from models.base_model import BaseModel
 from datetime import datetime
 
-
 class TestBaseModel(unittest.TestCase):
     """Base mode test suite"""
 
@@ -26,8 +25,8 @@ class TestBaseModel(unittest.TestCase):
 
     test_to_dict_returns_all_attr_values(self):
         """
-        Test that to_dict() method returns a dictionary containing
-        all keys/values of dict of the instance
+        Test that to_dict method returns a dictionary containing
+        all keys values of dict of the instance
         """
         bm1 = BaseModel()
         bm1.id = "123"
