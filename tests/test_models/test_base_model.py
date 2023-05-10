@@ -15,6 +15,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(bm1.id, bm2.id)
 
     test_created_at_assigned_at_current_time(self):
+        """
+        Test that created_at is assigned the current datetime
+        """
         bm1 = BaseModel()
         created_at = bm1.created_at
         current_time = datetime.now
