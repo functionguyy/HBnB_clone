@@ -6,11 +6,21 @@ import uuid
 class BaseModel(object):
     """This class defines all common attributes/methods for other classes"""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """This method sets the initialization values of an instance"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        key_list = list(kwargs.keys())
+        if len(key_list) > 0:
+            for i in range(len(key_list)):
+                key = key_list[i]
+                value = kwargs[key]
+                if key != "__class__":
+                    if key in ['created_at', 'updated_at']:
+                        value = datetime.fromisoformat(value)
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         "Magic method"

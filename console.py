@@ -37,7 +37,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if arg:
             if arg != "BaseModel":
-                print("** class doesn't exit **")
+                print("** class doesn't exist **")
             else:
                 bm_id = str(uuid.uuid4())
                 created_at = datetime.now()
