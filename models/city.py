@@ -3,7 +3,7 @@
 from models.base_model import BaseModel
 
 
-class City(BaseModle):
+class City(BaseModel):
     """
     Subclass of BaseModel class
     Public class attributes:

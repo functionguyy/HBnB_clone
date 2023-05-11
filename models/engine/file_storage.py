@@ -15,14 +15,14 @@ class FileStorage:
         """
         returns the dictionary __objects
         """
-        return __objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
         Sets in __objects the obj with key <obj class name>.id
         """
         key = f"{obj.__class__.name}.{obj.id}"
-        FileStorage.__objects[key] = obj
+        FileStorage.__objects[key] = obj.to_dict()
 
     def save(self):
         """
