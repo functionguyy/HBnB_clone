@@ -42,3 +42,32 @@ class FileStorage:
                 FileStorage.__objects = json.loads(json_string)
         except FileNotFoundError:
             pass
+
+    def destroy(self, key):
+        """
+        Deletes an object from objects
+        """
+        FileStorage.__objects.pop(key)
+        self.save()
+
+    def update(self, key, attr, value):
+        """
+        Uses the key to add or update attr value
+        """
+        FileStorage.__objects[key][attr] = value
+        self.save()
+
+    def objects(self):
+        """
+        Returns a dictionary of class names and ids
+        """
+        class_names = []
+        ids = []
+        objects = FileStorage.__objects
+        for obj in objects:
+            obj_details = obj.split('.')
+            class_name = obj_details[0]
+            obj_id = obj_details[1]
+            class_names.append(class_name)
+            ids.append(obj_id)
+        return {'classes': list(set(class_names)), 'ids': ids}
