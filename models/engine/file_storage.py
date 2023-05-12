@@ -54,6 +54,14 @@ class FileStorage:
         """
         Uses the key to add or update attr value
         """
+        try:
+            current_value = FileStorage.__objects[key][attr]
+            if type(current_value) == int:
+                value = int(value)
+            elif type(current_value) == float:
+                value = float(value)
+        except KeyError:
+            pass
         FileStorage.__objects[key][attr] = value
         self.save()
 

@@ -135,8 +135,6 @@ class HBNBCommand(cmd.Cmd):
             key = f"{args[0]}.{args[1]}"
             attr = args[2]
             value = args[3].strip('"')
-            if type(eval(value)) != str:
-                value = eval(value)
             storage.update(key, attr, value)
 
     # ----------- Class methods ------------- #

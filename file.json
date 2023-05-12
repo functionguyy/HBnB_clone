@@ -1,1 +1,1 @@
-{"BaseModel.3795aa74-57f6-48cd-8b76-5e2f73677ef2": {"id": "3795aa74-57f6-48cd-8b76-5e2f73677ef2", "created_at": "2023-05-12T16:06:12.982292", "updated_at": "2023-05-12T16:06:12.982299", "__class__": "BaseModel", "email": "orms45@gmail.com"}}
+{"BaseModel.f3d57704-1842-42bc-807a-eb20e943e2f1": {"id": "f3d57704-1842-42bc-807a-eb20e943e2f1", "created_at": "2023-05-12T17:05:00.460235", "updated_at": "2023-05-12T17:05:00.460298", "__class__": "BaseModel", "first_name": "Betty", "age": "30", "height": "1.86"}}
