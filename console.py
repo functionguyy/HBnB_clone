@@ -1,17 +1,29 @@
 #!/usr/bin/python3
 import cmd
-import uuid
-from datetime import datetime
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+from models import *
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
     """
         Hbnb command line interface
     """
-    id = 0
-    bm_list = [
+
+    classes = [
+        "BaseModel",
+        "User",
+        "Place",
+        "State",
+        "City",
+        "Amenity",
+        "Review"
     ]
-    id_list = []
 
     # ------------ Class attributes ---------- #
     prompt = '(hbnb) '
@@ -36,20 +48,12 @@ class HBNBCommand(cmd.Cmd):
             Creates a new instance of BaseModel
         """
         if arg:
-            if arg != "BaseModel":
+            if arg not in HBNBCommand.classes:
                 print("** class doesn't exist **")
             else:
-                bm_id = str(uuid.uuid4())
-                created_at = datetime.now()
-                updated_at = datetime.now()
-                HBNBCommand.bm_list.append(
-                    {'id': bm_id,
-                     'created_at': f'{created_at}',
-                     'updated_at': f"{updated_at}",
-                     '__class__': "BaseModel"}
-                )
-                HBNBCommand.id_list.append(bm_id)
-                print(bm_id)
+                obj = eval(arg + '()')
+                obj.save()
+                print(obj.id)
         else:
             print("** class name missing **")
 
@@ -59,17 +63,23 @@ class HBNBCommand(cmd.Cmd):
             on the class name and id
         """
         if arg:
-            arg_list = [ar for ar in arg.split()]
-            if arg_list[0] != 'BaseModel':
+            args = arg.split()
+            if args[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
-            elif len(arg_list) == 1:
+            elif len(args) == 1:
                 print("** instance id missing **")
-            elif arg_list[1] not in HBNBCommand.id_list:
+            elif args[1] not in storage.ids():
                 print("** no instance found **")
             else:
-                for bm in HBNBCommand.bm_list:
-                    if bm['id'] == arg_list[1]:
-                        print("[BaseModel]", f"({arg_list[1]})",bm)
+                key = f"{args[0]}.{args[1]}"
+                objects = storage.all()
+                for obj_key, value in objects.items():
+                    if obj_key == key:
+                        obj_dict = {}
+                        for attr, val in value.items():
+                            if attr != "__class__":
+                                obj_dict[attr] = val
+                        print("[{}] ({}) {}".format(args[0], args[1], obj_dict))
         else:
             print("** class name missing **")
 
@@ -79,19 +89,16 @@ class HBNBCommand(cmd.Cmd):
             and save the change into the JSON file.
         """
         if arg:
-            arg_list = arg.split()
-            length = len(arg_list)
-            if arg_list[0] == "BaseModel":
+            args = arg.split()
+            length = len(args)
+            if args[0] in HBNBCommand.classes:
                 if length == 1:
                     print("** instance id missing **")
-                elif arg_list[1] not in HBNBCommand.id_list:
+                elif args[1] not in storage.ids():
                     print("** no instance found **")
                 else:
-                    for i in range(length):
-                        if HBNBCommand.bm_list[i]['id'] == arg_list[1]:
-                            break
-                    del HBNBCommand.bm_list[i]
-                    HBNBCommand.id_list.remove(arg_list[1])
+                    key = f"{args[0]}.{args[1]}"
+                    storage.destroy(key)
             else:
                 print("** class doesn't exit **")
         else:
@@ -102,13 +109,18 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances based
         or not on the class
         """
-        if not arg or arg == "BaseModel":
-            print('[', end="")
-            for bm in HBNBCommand.bm_list:
-                print(f"\"[BaseModel] ({bm['id']}) {bm}\"", end="")
-                if bm != HBNBCommand.bm_list[-1]:
-                    print(", ", end="")
-            print(']')
+        if not arg or arg in HBNBCommand.classes:
+            all_objects = []
+            objects = storage.all()
+            for obj_key, value in objects.items():
+                class_name = value['__class__']
+                obj_id = value['id']
+                obj_dict = {}
+                for attr, val in value.items():
+                    if attr != "__class__":
+                        obj_dict[attr] = val
+                all_objects.append(f"[{class_name}] ({obj_id}) {obj_dict}")
+            print(all_objects)
         else:
             print("** class doesn't exist **")
 
@@ -118,26 +130,27 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the name and id
         by adding or updating an attribute
         """
-        arg_list = arg.split()
-        length = len(arg_list)
+        args = arg.split()
+        length = len(args)
         if length == 0:
             print("** class name missing **")
         elif length == 1:
-            if arg_list[0] != "BaseModel":
+            if args[0] not in HBNCommand.classes:
                 print("** class doesn't exist **")
             else:
                 print("** instance id missing **")
         elif length == 2:
-            if arg_list[1] not in HBNBCommand.id_list:
+            if args[1] not in storage.ids():
                 print("** no instance found **")
             else:
                 print("** attribute name missing **")
         elif length == 3:
                 print("** value missing **")
         else:
-            for bm in HBNBCommand.bm_list:
-                if bm['id'] == arg_list[1]:
-                    bm[arg_list[2]] = arg_list[3].strip('"')
+            key = f"{args[0]}.{args[1]}"
+            attr = args[2]
+            value = args[3].strip('"')
+            storage.update(key, attr, value)
 
     # ----------- Class methods ------------- #
     def emptyline(self):
