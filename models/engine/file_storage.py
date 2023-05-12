@@ -1,44 +1,35 @@
 #!/usr/bin/python3
-"""File Storage Module"""
+"""FileStorage Class is defined inside this Module"""
 import json
 
 
 class FileStorage:
-    """
-    Serializes instances to a JSON file
-    and deserializes JSON file to instances
-    """
-    __file_path = "file.json"
-    __objects = {}
+    """Serializes instances to a JSON file and deserializes JSON file to instances"""
+    __file_path = "file.json" #JSON file to store serialized instances
+    __objects = {} # store objects by <class name>.id
 
     def all(self):
-        """
-        returns the dictionary __objects
-        """
-        return FileStorage.__objects
+        """returns the __objects class attribute"""
+        return self.__class__.__objects
 
     def new(self, obj):
-        """
-        Sets in __objects the obj with key <obj class name>.id
+        """Sets in __objects the obj with key <obj class name>.id
+
+        args:
+            obj: object to be written to text file
         """
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj.to_dict()
+        self.__class__.__objects[key] = obj.to_dict()
 
     def save(self):
-        """
-        Serializes __objects to the JSON file
-        """
-        json_string = json.dumps(FileStorage.__objects)
-        with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
-            f.write(json_string)
+        """Serializes __objects to the JSON file"""
+        with open(self.__class__.__file_path, "w", encoding="utf-s") as f:
+            json.dump(self.__class__.__objects, f)
 
     def reload(self):
-        """
-        Deserializes the JSON file to __objects, only if the file pathe exist
-        """
+        """Deserializes the JSON file to __objects, only if the file pathe exist"""
         try:
-            with open(FileStorage.__file_path, encoding='utf-8') as f:
-                json_string = f.read()
-                FileStorage.__objects = json.loads(json_string)
+            with open(self.__class__.__file_path,"r", encoding='utf-8') as f:
+                self.__class__..__objects = json.load(json_string)
         except FileNotFoundError:
             pass
