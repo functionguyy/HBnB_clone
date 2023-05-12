@@ -1,14 +1,29 @@
 #!/usr/bin/python3
 import cmd
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 from models import *
 from models.base_model import BaseModel
+
 
 class HBNBCommand(cmd.Cmd):
     """
         Hbnb command line interface
     """
 
-    classes = ["BaseModel", "User", "Place", "State", "City", "Amenity"]
+    classes = [
+        "BaseModel",
+        "User",
+        "Place",
+        "State",
+        "City",
+        "Amenity",
+        "Review"
+    ]
 
     # ------------ Class attributes ---------- #
     prompt = '(hbnb) '
