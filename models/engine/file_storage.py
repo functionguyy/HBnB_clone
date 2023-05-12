@@ -57,17 +57,12 @@ class FileStorage:
         FileStorage.__objects[key][attr] = value
         self.save()
 
-    def objects(self):
+    def ids(self):
         """
         Returns a dictionary of class names and ids
         """
-        class_names = []
-        ids = []
+        object_ids = []
         objects = FileStorage.__objects
-        for obj in objects:
-            obj_details = obj.split('.')
-            class_name = obj_details[0]
-            obj_id = obj_details[1]
-            class_names.append(class_name)
-            ids.append(obj_id)
-        return {'classes': list(set(class_names)), 'ids': ids}
+        for obj, value in objects.items():
+            object_ids.append(value['id'])
+        return object_ids

@@ -7,8 +7,8 @@ class HBNBCommand(cmd.Cmd):
     """
         Hbnb command line interface
     """
-    classes = storage.objects()['classes']
-    ids = storage.objects()['ids']
+
+    classes = ["BaseModel", "User", "Place", "State", "City", "Amenity"]
 
     # ------------ Class attributes ---------- #
     prompt = '(hbnb) '
@@ -53,12 +53,12 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             elif len(args) == 1:
                 print("** instance id missing **")
-            elif args[1] not in HBNBCommand.ids:
+            elif args[1] not in storage.ids():
                 print("** no instance found **")
             else:
                 key = f"{args[0]}.{args[1]}"
                 objects = storage.all()
-                for obj_key, value in objects:
+                for obj_key, value in objects.items():
                     if obj_key == key:
                         obj_dict = {}
                         for attr, val in value.items():
@@ -79,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
             if args[0] in HBNBCommand.classes:
                 if length == 1:
                     print("** instance id missing **")
-                elif args[1] not in HBNBCommand.ids:
+                elif args[1] not in storage.ids():
                     print("** no instance found **")
                 else:
                     key = f"{args[0]}.{args[1]}"
@@ -125,7 +125,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** instance id missing **")
         elif length == 2:
-            if args[1] not in HBNBCommand.ids:
+            if args[1] not in storage.ids():
                 print("** no instance found **")
             else:
                 print("** attribute name missing **")
@@ -134,7 +134,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = f"{args[0]}.{args[1]}"
             attr = args[2]
-            value = args[3]
+            value = args[3].strip('"')
+            if type(eval(value)) != str:
+                value = eval(value)
             storage.update(key, attr, value)
 
     # ----------- Class methods ------------- #
