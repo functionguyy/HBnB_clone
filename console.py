@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import cmd
+from datetime import datetime
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -8,7 +9,6 @@ from models.amenity import Amenity
 from models.review import Review
 from models import *
 from models.base_model import BaseModel
-from pprint import pprint
 
 
 class HBNBCommand(cmd.Cmd):
@@ -119,9 +119,11 @@ class HBNBCommand(cmd.Cmd):
                 obj_dict = {}
                 for attr, val in value.items():
                     if attr != "__class__":
+                        if attr in ["created_at", "updated_at"]:
+                            val = datetime.fromisoformat(val)
                         obj_dict[attr] = val
                 all_objects.append(f"[{class_name}] ({obj_id}) {obj_dict}")
-            pprint(all_objects)
+            print(all_objects)
         else:
             print("** class doesn't exist **")
 
