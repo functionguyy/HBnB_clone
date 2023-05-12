@@ -39,7 +39,6 @@ class FileStorage:
         try:
             with open(FileStorage.__file_path, encoding='utf-8') as f:
                 json_string = f.read()
-                print(json_string)
                 FileStorage.__objects = json.loads(json_string)
         except FileNotFoundError:
             pass
