@@ -12,8 +12,7 @@ class BaseModel(object):
         """This method sets the initialization values of an instance"""
         key_list = list(kwargs.keys())
         if len(key_list) > 0:
-            for i in range(len(key_list)):
-                key = key_list[i]
+            for key in key_list:
                 value = kwargs[key]
                 if key != "__class__":
                     if key in ['created_at', 'updated_at']:
