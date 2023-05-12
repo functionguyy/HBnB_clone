@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Init Module"""
-from models.file_storage import FileStorage
+from models.engine.file_storage import FileStorage
 
 
 storage = FileStorage()
