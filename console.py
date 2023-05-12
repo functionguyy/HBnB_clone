@@ -8,6 +8,7 @@ from models.amenity import Amenity
 from models.review import Review
 from models import *
 from models.base_model import BaseModel
+from pprint import pprint
 
 
 class HBNBCommand(cmd.Cmd):
@@ -120,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
                     if attr != "__class__":
                         obj_dict[attr] = val
                 all_objects.append(f"[{class_name}] ({obj_id}) {obj_dict}")
-            print(all_objects)
+            pprint(all_objects)
         else:
             print("** class doesn't exist **")
 
