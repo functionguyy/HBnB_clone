@@ -15,6 +15,23 @@ class TestBaseModel(unittest.TestCase):
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
 
+    def test_id_is_string(self):
+        """
+        Test that id is a string
+        """
+        bm = BaseModel()
+        self.assertIsIstance(bm.id, str)
+
+    def test_large_instance_ids(self):
+        """
+        Test for the unique ids of a large number of ids
+        """
+        ids = set()
+        for i in range(1000):
+            bm = BaseModel()
+            ids.add(bm.id)
+        self.assertEqual(len(ids), 1000)
+
     def test_created_at_assigned_at_current_time(self):
         """
             Test that created_at is assigned the current datetime
@@ -24,6 +41,43 @@ class TestBaseModel(unittest.TestCase):
         created_at = bm1.created_at
         current_time = datetime.now
         self.assertEqual(created_at, current_time)
+
+    def test_created_at_and_updated_at(self):
+        """
+        Test that created_at and updated_at attrs are equal
+        """
+        bm = BaseModel()
+        created_at = bm.created_at
+        updated_at = bm.updated_at
+        self.assertEqual(created_at, updated_at)
+
+    def test_created_at_is_string(self):
+        """
+        Test that created_at is a string
+        """
+        bm = BaseModel()
+        created_at = bm.created_at
+        self.assertIsInstance(created_at, datetime)
+
+    def test_updated_at_is_string(self):
+        """
+        Test that updated_at is a string
+        """
+        bm = BaseModel()
+        updated_at = bm.updated_at
+        self.assertIsInstance(updated_at, datetime)
+
+    def test_string_method(self):
+        """
+        Test that the str is producing the right output
+        """
+        bm = BaseModel()
+
+        bm.name = "Omar Jammeh"
+        bm.number = "123545"
+
+        expected_output = "[BaseModel] ({}) {}".format(bm.id, bm.__dict__)
+        self.assertEqual(str(bm), expected_output)
 
     def test_to_dict_returns_all_attr_values(self):
         """
@@ -44,6 +98,14 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(bm_dict['updated'], "2022-05-09T14:30:00.000000")
         self.assertEqual(bm_dict['name'], "example")
         self.assertEqual(bm_dict['number'], 42)
+
+    def test_to_dict_unknown_attrs(self):
+        """
+        Test for unknown attrs
+        """
+        bm = BaseModel()
+        bm_dict = bm.to_dict()
+        self.assertTrue('unknown' not in bm_dict)
 
     def test_to_dict_contains_class_key(self):
         """
