@@ -21,7 +21,7 @@ class BaseModel(object):
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.updated_at = self.created_at
             storage.new(self)
 
     def __str__(self):
@@ -32,22 +32,3 @@ class BaseModel(object):
         """Updates the public attribute update_at with the current datetime"""
         self.updated_at = datetime.now()
         storage.save()
-
-    def to_dict(self):
-        """Create a dictionary representation with simple object type of
-        BaseModel
-
-        """
-        bm_obj = {}
-        keys = self.__dict__.copy()
-        for key in keys:
-            if key == "updated_at":
-                bm_obj[key] = self.__dict__[key].isoformat()
-            elif key == "created_at":
-                bm_obj[key] = self.__dict__[key].isoformat()
-            else:
-                bm_obj[key] = self.__dict__[key]
-
-        bm_obj["__class__"] = self.__class__.__name__
-
-        return bm_obj
