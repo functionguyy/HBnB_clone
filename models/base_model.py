@@ -40,15 +40,9 @@ class BaseModel(object):
 
         """
         bm_obj = {}
-        keys = self.__dict__.copy()
-        for key in keys:
-            if key == "updated_at":
-                bm_obj[key] = self.__dict__[key].isoformat()
-            elif key == "created_at":
-                bm_obj[key] = self.__dict__[key].isoformat()
-            else:
-                bm_obj[key] = self.__dict__[key]
-
+        bm_obj = self.__dict__.copy()
+        bm_obj['created_at'] = self.created_at.isoformat()
+        bm_obj['updated_at'] = self.updated_at.isoformat()
         bm_obj["__class__"] = self.__class__.__name__
 
         return bm_obj

@@ -7,7 +7,14 @@ from datetime import datetime
 class TestBaseModel(unittest.TestCase):
     """Base model test suite"""
 
-    def test_instance_id(self):
+    def test_attribute_id_1(self):
+        """
+        Test that class has attribute 'id'
+        """
+        bm = BaseModel()
+        self.assertTrue(hasattr(bm, 'id'))
+
+    def test_attribute_id_2(self):
         """
             Test that a BaseModel instance has a unique ID when Created
         """
@@ -15,14 +22,14 @@ class TestBaseModel(unittest.TestCase):
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
 
-    def test_id_is_string(self):
+    def test_attribute_id_3(self):
         """
-        Test that id is a string
+        Test that attr 'id' is a string
         """
         bm = BaseModel()
-        self.assertIsIstance(bm.id, str)
+        self.assertIsInstance(bm.id, str)
 
-    def test_large_instance_ids(self):
+    def test_attribute_id_4(self):
         """
         Test for the unique ids of a large number of ids
         """
@@ -32,40 +39,69 @@ class TestBaseModel(unittest.TestCase):
             ids.add(bm.id)
         self.assertEqual(len(ids), 1000)
 
-    def test_created_at_assigned_at_current_time(self):
+    def test_attribute_created_at_1(self):
         """
-            Test that created_at is assigned the current datetime
-            when an instance is created
+        Test that has attribute 'created_at'
         """
-        bm1 = BaseModel()
-        created_at = bm1.created_at
-        current_time = datetime.now
-        self.assertEqual(created_at, current_time)
+        bm = BaseModel()
+        self.assertTrue(hasattr(bm, 'created_at'))
 
-    def test_created_at_and_updated_at(self):
+    def test_attribute_created_at_2(self):
+        """
+        Test that attr 'created_at' is a datetime object
+        """
+        bm = BaseModel()
+        assertTrue(isinstance(bm.created_at, datetime))
+
+    def test_attribute_created_at_3(self):
+        """
+        Test that attr 'created_at' is current time
+        """
+        before_current = datetime.now()
+        bm = BaseModel()
+        after_current = datetime.now()
+        assertTrue(before_current <= bm.created_at)
+        assertTrue(after_current >= bm.created_at)
+
+    def test_attribute_updated_at_1(self):
+        """
+        Test that class has attr 'updated_at'
+        """
+        bm = BaseModel()
+        self.assertTrue(hasattr(bm, 'updated_at'))
+
+
+    def test_attribute_updated_at_2(self):
         """
         Test that created_at and updated_at attrs are equal
         """
         bm = BaseModel()
-        created_at = bm.created_at
-        updated_at = bm.updated_at
-        self.assertEqual(created_at, updated_at)
+        self.assertEqual(bm.created_at, bm.updated_at)
 
-    def test_created_at_is_string(self):
-        """
-        Test that created_at is a string
-        """
-        bm = BaseModel()
-        created_at = bm.created_at
-        self.assertIsInstance(created_at, datetime)
-
-    def test_updated_at_is_string(self):
+    def test_attribute_updated_at_3(self):
         """
         Test that updated_at is a string
         """
         bm = BaseModel()
-        updated_at = bm.updated_at
-        self.assertIsInstance(updated_at, datetime)
+        self.assertIsInstance(bm.updated_at, datetime)
+
+    def test_attribute_updated_at_4(self):
+        """
+        Test that upated_at attr is current time
+        """
+        before_current = datetime.now()
+        bm = BaseModel()
+        after_current = datetime.now()
+        self.assertTrue(before_current < bm.updated_at)
+        self.assertTrue(after_current > bm.updated_at)
+
+    def test_attribute_updated_at_5(self):
+        """
+        Test that the updated_at is change after a save
+        """
+        bm = BaseModel()
+        bm.save()
+        self.assertNotEqual(bm.created_at, bm.updated_at)
 
     def test_string_method(self):
         """
