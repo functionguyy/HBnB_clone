@@ -79,6 +79,8 @@ class HBNBCommand(cmd.Cmd):
                         obj_dict = {}
                         for attr, val in value.items():
                             if attr != "__class__":
+                                if attr in ["created_at", "updated_at"]:
+                                    val = datetime.fromisoformat(val)
                                 obj_dict[attr] = val
                         print("[{}] ({}) {}".format(args[0], args[1], obj_dict))
         else:
@@ -112,7 +114,14 @@ class HBNBCommand(cmd.Cmd):
         """
         if not arg or arg in HBNBCommand.classes:
             all_objects = []
-            objects = storage.all()
+            objects = {}
+            objs = storage.all()
+            if arg:
+                for obj_attr, obj_val in objs.items():
+                    if arg in obj_attr:
+                        objects[obj_attr] = obj_val
+            else:
+                objects = objs
             for obj_key, value in objects.items():
                 class_name = value['__class__']
                 obj_id = value['id']
