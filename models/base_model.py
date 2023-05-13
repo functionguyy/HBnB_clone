@@ -32,8 +32,6 @@ class BaseModel(object):
         """Updates the public attribute update_at with the current datetime"""
         self.updated_at = datetime.now()
         storage.save()
-<<<<<<< HEAD
-=======
 
     def to_dict(self):
         """Create a dictionary representation with simple object type of
@@ -47,4 +45,3 @@ class BaseModel(object):
         bm_obj["__class__"] = self.__class__.__name__
 
         return bm_obj
->>>>>>> feature-console
