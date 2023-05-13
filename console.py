@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Console Module"""
 import cmd
 from datetime import datetime
 from models.user import User
@@ -82,7 +83,8 @@ class HBNBCommand(cmd.Cmd):
                                 if attr in ["created_at", "updated_at"]:
                                     val = datetime.fromisoformat(val)
                                 obj_dict[attr] = val
-                        print("[{}] ({}) {}".format(args[0], args[1], obj_dict))
+                        st = "[{}] ({}) {}".format(args[0], args[1], obj_dict)
+                        print(st)
         else:
             print("** class name missing **")
 
@@ -136,7 +138,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
-
     def do_update(self, arg):
         """
         Updates an instance based on the name and id
@@ -157,7 +158,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** attribute name missing **")
         elif length == 3:
-                print("** value missing **")
+            print("** value missing **")
         else:
             key = f"{args[0]}.{args[1]}"
             attr = args[2]
