@@ -30,7 +30,7 @@ class FileStorage:
         """Deserializes the JSON file to __objects, only if the file pathe exist"""
         try:
             with open(self.__class__.__file_path,"r", encoding='utf-8') as f:
-                self.__class__.__objects = json.load(json_string)
+                self.__class__.__objects = json.load(self.__class__.__file_path)
         except FileNotFoundError:
             pass
 
