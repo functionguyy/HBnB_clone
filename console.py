@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
             if arg not in HBNBCommand.classes:
                 print("** class doesn't exist **")
             else:
-                obj = eval(arg + '()')
+                obj = eval(arg)()
                 obj.save()
                 print(obj.id)
         else:
@@ -66,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if arg:
             args = arg.split()
-            if args[0] not in HBNBCommand.classes:
+            if args[0] not in self.classes:
                 print("** class doesn't exist **")
             elif len(args) == 1:
                 print("** instance id missing **")
@@ -75,16 +75,9 @@ class HBNBCommand(cmd.Cmd):
             else:
                 key = f"{args[0]}.{args[1]}"
                 objects = storage.all()
-                for obj_key, value in objects.items():
-                    if obj_key == key:
-                        obj_dict = {}
-                        for attr, val in value.items():
-                            if attr != "__class__":
-                                if attr in ["created_at", "updated_at"]:
-                                    val = datetime.fromisoformat(val)
-                                obj_dict[attr] = val
-                        st = "[{}] ({}) {}".format(args[0], args[1], obj_dict)
-                        print(st)
+                for obj_key, obj in objects.items():
+                    if key == obj_key:
+                        print(obj)
         else:
             print("** class name missing **")
 
@@ -96,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
         if arg:
             args = arg.split()
             length = len(args)
-            if args[0] in HBNBCommand.classes:
+            if args[0] in self.classes:
                 if length == 1:
                     print("** instance id missing **")
                 elif args[1] not in storage.ids():
@@ -114,7 +107,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances based
         or not on the class
         """
-        if not arg or arg in HBNBCommand.classes:
+        if not arg or arg in self.classes:
             all_objects = []
             objects = {}
             objs = storage.all()
@@ -125,15 +118,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 objects = objs
             for obj_key, value in objects.items():
-                class_name = value['__class__']
-                obj_id = value['id']
-                obj_dict = {}
-                for attr, val in value.items():
-                    if attr != "__class__":
-                        if attr in ["created_at", "updated_at"]:
-                            val = datetime.fromisoformat(val)
-                        obj_dict[attr] = val
-                all_objects.append(f"[{class_name}] ({obj_id}) {obj_dict}")
+                all_objects.append(str(value))
             print(all_objects)
         else:
             print("** class doesn't exist **")
@@ -152,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
         if length == 0:
             print("** class name missing **")
         elif length == 1:
-            if args[0] not in HBNCommand.classes:
+            if args[0] not in self.classes:
                 print("** class doesn't exist **")
             else:
                 print("** instance id missing **")

@@ -15,31 +15,33 @@ class FileStorage:
         """
         returns the dictionary __objects
         """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
         Sets in __objects the obj with key <obj class name>.id
         """
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj.to_dict()
+        self.__objects[key] = obj
 
     def save(self):
         """
         Serializes __objects to the JSON file
         """
-        json_string = json.dumps(FileStorage.__objects)
+        obj_dict = {key: obj.to_dict() for key, obj in self.__objects.items()}
         with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
-            f.write(json_string)
+            json.dump(obj_dict, f)
 
     def reload(self):
         """
         Deserializes the JSON file to __objects, only if the file pathe exist
         """
         try:
-            with open(FileStorage.__file_path, encoding='utf-8') as f:
-                json_string = f.read()
-                FileStorage.__objects = json.loads(json_string)
+            with open(self.__file_path, encoding='utf-8') as f:
+                obj_dict = json.load(f)
+                for key, obj in obj_dict.items():
+                    class_name, id = key.split('.')
+                    self.__objects[key] = eval(class_name)(**obj)
         except FileNotFoundError:
             pass
 
@@ -47,22 +49,20 @@ class FileStorage:
         """
         Deletes an object from objects
         """
-        FileStorage.__objects.pop(key)
+        self.__objects.pop(key)
         self.save()
 
     def update(self, key, attr, value):
         """
         Uses the key to add or update attr value
         """
-        try:
-            current_value = FileStorage.__objects[key][attr]
+        if hasattr(self.__objects[key], attr):
+            current_value = getattr(self.__objects[key], attr)
             if type(current_value) == int:
                 value = int(value)
             elif type(current_value) == float:
                 value = float(value)
-        except KeyError:
-            pass
-        FileStorage.__objects[key][attr] = value
+        setattr(self.__objects[key], attr, value)
         self.save()
 
     def ids(self):
@@ -70,7 +70,7 @@ class FileStorage:
         Returns a dictionary of class names and ids
         """
         object_ids = []
-        objects = FileStorage.__objects
-        for obj, value in objects.items():
-            object_ids.append(value['id'])
+        objects = self.__objects
+        for key, obj in objects.items():
+            object_ids.append(obj.to_dict()['id'])
         return object_ids

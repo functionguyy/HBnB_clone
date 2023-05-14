@@ -19,9 +19,9 @@ class BaseModel(object):
                         value = datetime.fromisoformat(value)
                     setattr(self, key, value)
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            setattr(self, 'id', str(uuid.uuid4()))
+            setattr(self, 'created_at', datetime.now())
+            setattr(self, 'updated_at', datetime.now())
             storage.new(self)
 
     def __str__(self):
@@ -33,7 +33,7 @@ class BaseModel(object):
 
     def save(self):
         """Updates the public attribute update_at with the current datetime"""
-        self.updated_at = datetime.now()
+        setattr(self, 'updated_at', datetime.now())
         storage.save()
 
     def to_dict(self):
