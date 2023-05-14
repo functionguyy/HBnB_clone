@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Test Module"""
+"""Test Module for amenity class"""
 import unittest
 from models.amenity import Amenity
 

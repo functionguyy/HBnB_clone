@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Test Module"""
+"""Test Module for review class"""
 import unittest
 from models.review import Review
 
