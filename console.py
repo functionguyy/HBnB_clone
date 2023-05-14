@@ -8,7 +8,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from models import storage
 from models.base_model import BaseModel
 
 
@@ -64,6 +63,7 @@ class HBNBCommand(cmd.Cmd):
             Prints the string representation of an instance based
             on the class name and id
         """
+        from models import storage
         if arg:
             args = arg.split()
             if args[0] not in self.classes:
@@ -107,6 +107,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances based
         or not on the class
         """
+        from models import storage
         if not arg or arg in self.classes:
             all_objects = []
             objects = {}

@@ -2,7 +2,6 @@
 """This module contains the definition of the BaseModel class"""
 from datetime import datetime, timezone
 import uuid
-from models import storage
 
 
 class BaseModel(object):
@@ -10,6 +9,7 @@ class BaseModel(object):
 
     def __init__(self, *args, **kwargs):
         """This method sets the initialization values of an instance"""
+        from models import storage
         key_list = list(kwargs.keys())
         if len(key_list) > 0:
             for key in key_list:
@@ -33,6 +33,7 @@ class BaseModel(object):
 
     def save(self):
         """Updates the public attribute update_at with the current datetime"""
+        from models import storage
         setattr(self, 'updated_at', datetime.now())
         storage.save()
 
