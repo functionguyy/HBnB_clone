@@ -102,7 +102,7 @@ class HBNBCommand(cmd.Cmd):
                     key = f"{args[0]}.{args[1]}"
                     storage.destroy(key)
             else:
-                print("** class doesn't exit **")
+                print("** class doesn't exist **")
         else:
             print("** class name missing **")
 
