@@ -137,6 +137,9 @@ class HBNBCommand(cmd.Cmd):
         """
         from models import storage
         args = arg.split()
+        if args[2][0] == '"':
+            print("** attribute name missing **")
+            return
         if '"' in arg:
             new_args = arg.split('"')
             args = new_args[0].split()
