@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Test Module for BaseModel Test Suite"""
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
@@ -69,7 +70,6 @@ class TestBaseModel(unittest.TestCase):
         """
         bm = BaseModel()
         self.assertTrue(hasattr(bm, 'updated_at'))
-
 
     def test_attribute_updated_at_2(self):
         """

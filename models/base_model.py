@@ -21,12 +21,15 @@ class BaseModel(object):
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
-            self.updated_at = self.created_at
+            self.updated_at = datetime.now()
             storage.new(self)
 
     def __str__(self):
         "Magic method"
-        return "["+str(self.__class__.__name__)+"] ("+str(self.id)+") "+str(self.__dict__)
+        class_name = self.__class__.__name__
+        obj_id = self.id
+        obj_dict = self.__dict__
+        return "[{}] ({}) {}".format(class_name, obj_id, obj_dict)
 
     def save(self):
         """Updates the public attribute update_at with the current datetime"""

@@ -59,6 +59,7 @@ class TestUser(unittest.TestCase):
         user = User()
         with self.assertRaises(AttributeError):
             user.unknown
+
     def test_id_attr(self):
         """
         Test for the id attribute of the instance
