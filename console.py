@@ -86,6 +86,7 @@ class HBNBCommand(cmd.Cmd):
             Deletes an instances based on the class name and id.
             and save the change into the JSON file.
         """
+        from models import storage
         if arg:
             args = arg.split()
             length = len(args)
@@ -129,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the name and id
         by adding or updating an attribute
         """
+        from models import storage
         args = arg.split()
         if '"' in arg:
             new_args = arg.split('"')
