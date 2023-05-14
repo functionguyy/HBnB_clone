@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""File Storage Module"""
+"""File Storage Module for serialization and deserialization from the JSON"""
 import json
 from models.base_model import BaseModel
 from models.user import User
