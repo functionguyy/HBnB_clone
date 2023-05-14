@@ -1,14 +1,15 @@
 #!/usr/bin/python3
-"""City Module"""
-from models.base_model import BaseModel
+"""This module contains the definition for City class"""
+from base_model import BaseModel
 
 
 class City(BaseModel):
-    """
-    Subclass of BaseModel class
-    Public class attributes:
-        state_id: string - empyty string
-        name: string-empty string
+    """Subclass of BaseModel class
+
+
+    Args:
+        state_id: The id of the state
+        name: string
     """
     state_id = ""
     name = ""
