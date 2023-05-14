@@ -144,6 +144,10 @@ class HBNBCommand(cmd.Cmd):
         by adding or updating an attribute
         """
         args = arg.split()
+        if '"' in arg:
+            new_args = arg.split('"')
+            args = new_args[0].split()
+            args.append(new_args[1])
         length = len(args)
         if length == 0:
             print("** class name missing **")
