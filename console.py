@@ -49,6 +49,8 @@ class HBNBCommand(cmd.Cmd):
             Creates a new instance of BaseModel
         """
         if arg:
+            args = arg.split()
+            arg = args[0]
             if arg not in HBNBCommand.classes:
                 print("** class doesn't exist **")
             else:
