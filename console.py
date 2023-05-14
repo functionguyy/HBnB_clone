@@ -75,6 +75,9 @@ class HBNBCommand(cmd.Cmd):
             else:
                 key = f"{args[0]}.{args[1]}"
                 objects = storage.all()
+                if key not in objects:
+                    print("** no instance found **")
+                    return
                 for obj_key, obj in objects.items():
                     if key == obj_key:
                         print(obj)

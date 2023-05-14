@@ -56,13 +56,19 @@ class FileStorage:
         """
         Deletes an object from objects
         """
-        self.__objects.pop(key)
-        self.save()
+        if key in self.__objects:
+            self.__objects.pop(key)
+            self.save()
+        else:
+            print("** no instance found **")
 
     def update(self, key, attr, value):
         """
         Uses the key to add or update attr value
         """
+        if key not in self.__objects:
+            print("** no instance found **")
+            return
         if hasattr(self.__objects[key], attr):
             current_value = getattr(self.__objects[key], attr)
             if type(current_value) == int:
