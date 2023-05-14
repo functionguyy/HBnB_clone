@@ -2,7 +2,7 @@
 """This module contains the definition of the BaseModel class"""
 from datetime import datetime, timezone
 import uuid
-from models import *
+from models import storage
 
 
 class BaseModel(object):
