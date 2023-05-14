@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Test Module for the city class"""
-import unittest
 from models.city import City
+import unittest
 
 
 class TestCity(unittest.TestCase):
