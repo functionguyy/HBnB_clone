@@ -40,12 +40,10 @@ class BaseModel(object):
     def to_dict(self):
         """Create a dictionary representation with simple object type of
         BaseModel
-
         """
         bm_obj = {}
         bm_obj = self.__dict__.copy()
         bm_obj['created_at'] = self.created_at.isoformat()
         bm_obj['updated_at'] = self.updated_at.isoformat()
         bm_obj["__class__"] = self.__class__.__name__
-
         return bm_obj
