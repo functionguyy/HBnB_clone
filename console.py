@@ -194,21 +194,20 @@ class HBNBCommand(cmd.Cmd):
         """
         Input line parser
         """
-        if line[-2:] == "()":
-            args = line.split('.')
-            args[1] = args[1].strip('()')
-            args.reverse()
-            arg = " ".join(args)
-            return (args[0], args[1], arg)
-        elif '(' in line and ')' in line:
+        if '(' in line and ')' in line:
             line_args = line.split('.')
+            cls_name = line_args[0]
             command_args = line_args[1].split('(')
-            id_arg = command_args[1].strip('")')
-            command_arg = command_args[0]
-            cls_arg = line_args[0]
-            new_line = " ".join([command_arg, cls_arg, id_arg])
-            arg = " ".join([cls_arg, id_arg])
-            return (command_arg, arg, new_line)
+            command = command_args[0]
+            args_list = command_args[1].split()
+            args_list = [arg.strip('",)') for arg in args_list]
+            args = " ".join(args_list)
+            if len(args) > 0:
+                arg = "{} {}".format(cls_name.strip(' '), args)
+            else:
+                arg = cls_name
+            new_line = "{} {}".format(command, arg)
+            return (command, arg, new_line)
         else:
             return cmd.Cmd.parseline(self, line)
 
