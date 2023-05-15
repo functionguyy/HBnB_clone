@@ -168,6 +168,19 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
+    def parseline(self, line):
+        """
+        Input line parser
+        """
+        if line[-2:] == "()":
+            args = line.split('.')
+            args[1] = args[1].strip('()')
+            args.reverse()
+            arg = " ".join(args)
+            return (args[0], args[1], arg)
+        else:
+            return cmd.Cmd.parseline(self, line)
+
     # ------------ help methods ------------- #
     def help_quit(self):
         print("Quit command to exit the program")
