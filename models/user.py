@@ -4,9 +4,7 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """
-    Subclass of BaseModel class
-    """
+    """Subclass of BaseModel class"""
     email = ""
     password = ""
     first_name = ""
