@@ -28,7 +28,7 @@ class BaseModel(object):
         """The magic method returns the string representation of an instance.
 
         This method defines the value that will be returned when an instance
-        name is passed as an argument to the print(). 
+        name is passed as an argument to the print().
         """
         class_name = self.__class__.__name__
         obj_id = self.id
