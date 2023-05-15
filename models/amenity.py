@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""This module contains the definition for the Amenity class"""
+"""Amenity Module"""
 from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    """Subclass of BaseModel class
-
-    Args:
+    """
+    Subclass of BaseModel class
+    Public class attributes:
         name: string - empty string
     """
     name = ""

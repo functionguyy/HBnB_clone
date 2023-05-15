@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""This module contains the definition for State class"""
+"""State class module"""
 from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """Subclass of BaseModel class
-
-    Args:
-        name: string
+    """
+    Subclass of BaseModel class
+    Public class attributes:
+        name - string - empty string
     """
     name = ""

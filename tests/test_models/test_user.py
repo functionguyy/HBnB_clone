@@ -141,8 +141,7 @@ class TestUser(unittest.TestCase):
 
     def test_to_dict(self):
         """
-        Test that to_dict() method returns a
-        dictionary with all keys/values of User instance
+        Test that to_dict() method returns a dictionary with all keys/values of User instance
         """
         data = {
             'id': '1234',
