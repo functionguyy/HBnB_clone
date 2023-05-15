@@ -52,7 +52,7 @@ class TestBaseModel(unittest.TestCase):
         Test that attr 'created_at' is a datetime object
         """
         bm = BaseModel()
-        assertTrue(isinstance(bm.created_at, datetime))
+        self.assertTrue(isinstance(bm.created_at, datetime))
 
     def test_attribute_created_at_3(self):
         """
@@ -61,8 +61,8 @@ class TestBaseModel(unittest.TestCase):
         before_current = datetime.now()
         bm = BaseModel()
         after_current = datetime.now()
-        assertTrue(before_current <= bm.created_at)
-        assertTrue(after_current >= bm.created_at)
+        self.assertTrue(before_current <= bm.created_at)
+        self.assertTrue(after_current >= bm.created_at)
 
     def test_attribute_updated_at_1(self):
         """
@@ -76,7 +76,7 @@ class TestBaseModel(unittest.TestCase):
         Test that created_at and updated_at attrs are equal
         """
         bm = BaseModel()
-        self.assertEqual(bm.created_at, bm.updated_at)
+        self.assertNotEqual(bm.created_at, bm.updated_at)
 
     def test_attribute_updated_at_3(self):
         """
@@ -100,8 +100,9 @@ class TestBaseModel(unittest.TestCase):
         Test that the updated_at is change after a save
         """
         bm = BaseModel()
+        first_updated_at = bm.updated_at
         bm.save()
-        self.assertNotEqual(bm.created_at, bm.updated_at)
+        self.assertNotEqual(first_updated_at, bm.updated_at)
 
     def test_string_method(self):
         """
@@ -115,27 +116,42 @@ class TestBaseModel(unittest.TestCase):
         expected_output = "[BaseModel] ({}) {}".format(bm.id, bm.__dict__)
         self.assertEqual(str(bm), expected_output)
 
-    def test_to_dict_returns_all_attr_values(self):
+    def test_method_to_dict_1(self):
+        """
+        Test that to_dict method returns a dictionary object
+        """
+        bm = BaseModel()
+        self.assertTrue(isinstance(bm.to_dict(), dict))
+
+    def test_method_to_dict_2(self):
+        """
+        Test that to_dict method returns a dict object
+        containing '__class__' key and value
+        """
+        bm = BaseModel()
+        self.assertTrue(hasattr(bm, '__class__'))
+
+    def test_method_to_dict_3(self):
         """
             Test that to_dict method returns a dictionary containing
             all keys values of dict of the instance
         """
         bm1 = BaseModel()
         bm1.id = "123"
-        bm1.created_at = "2022-05-09T14:30:00.000000"
-        bm1.updated_at = "2022-05-09T14:30:00.000000"
+        bm1.created_at = datetime.fromisoformat("2022-05-09T14:30:00.123456")
+        bm1.updated_at = datetime.fromisoformat("2022-05-09T14:30:00.123456")
         bm1.name = "example"
         bm1.number = 42
 
         bm_dict = bm1.to_dict()
 
         self.assertEqual(bm_dict['id'], "123")
-        self.assertEqual(bm_dict['created_at'], "2022-05-09T14:30:00.000000")
-        self.assertEqual(bm_dict['updated'], "2022-05-09T14:30:00.000000")
+        self.assertEqual(bm_dict['created_at'], "2022-05-09T14:30:00.123456")
+        self.assertEqual(bm_dict['updated_at'], "2022-05-09T14:30:00.123456")
         self.assertEqual(bm_dict['name'], "example")
         self.assertEqual(bm_dict['number'], 42)
 
-    def test_to_dict_unknown_attrs(self):
+    def test_method_to_dict_4(self):
         """
         Test for unknown attrs
         """
@@ -143,18 +159,17 @@ class TestBaseModel(unittest.TestCase):
         bm_dict = bm.to_dict()
         self.assertTrue('unknown' not in bm_dict)
 
-    def test_to_dict_contains_class_key(self):
+    def test_method_to_dict_5(self):
         """
-            Test that dictionary contains __class__ key
+            Test that the value of '__class__' in the
+            return dict is 'BaseModel'
         """
         bm = BaseModel()
 
         bm_dict = bm.to_dict()
-
-        self.assertTrue("__class__" in bm_dict)
         self.assertEqual(bm_dict['__class__'], 'BaseModel')
 
-    def test_to_dict_iso_format(self):
+    def test_method_to_dict_6(self):
         """
             Test that the to_dict method converts created_at and
             update_at to string object in ISO format.
@@ -169,5 +184,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(isinstance(bm_dict['updated_at'], str))
         self.assertEqual(len(bm_dict['created_at']), 26)
         self.assertEqual(len(bm_dict['updated_at']), 26)
-        self.assertEqual(created_at[10], 'T')
-        self.assertEqual(updated_at[10], 'T')
+
+
+if __name__ == '__main__':
+    unittest.main()

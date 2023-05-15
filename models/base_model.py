@@ -43,7 +43,7 @@ class BaseModel(object):
         """
         bm_obj = {}
         bm_obj = self.__dict__.copy()
-        bm_obj['created_at'] = self.created_at.isoformat()
-        bm_obj['updated_at'] = self.updated_at.isoformat()
+        bm_obj['created_at'] = getattr(self, 'created_at').isoformat()
+        bm_obj['updated_at'] = getattr(self, 'updated_at').isoformat()
         bm_obj["__class__"] = self.__class__.__name__
         return bm_obj
