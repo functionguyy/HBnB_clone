@@ -161,6 +161,28 @@ class HBNBCommand(cmd.Cmd):
             value = args[3].strip('"')
             storage.update(key, attr, value)
 
+    def do_count(self, arg):
+        """
+        Counts the number of objects of all or specified
+        """
+        from models import storage
+        if not arg or arg in self.classes:
+            all_objects = []
+            objects = {}
+            objs = storage.all()
+            if arg:
+                for obj_attr, obj_val in objs.items():
+                    if arg in obj_attr:
+                        objects[obj_attr] = obj_val
+            else:
+                objects = objs
+            for obj_key, value in objects.items():
+                all_objects.append(str(value))
+            print(len(all_objects))
+        else:
+            print("** class doesn't exist **")
+
+
     # ----------- Class methods ------------- #
     def emptyline(self):
         """
