@@ -200,6 +200,15 @@ class HBNBCommand(cmd.Cmd):
             args.reverse()
             arg = " ".join(args)
             return (args[0], args[1], arg)
+        elif '(' in line and ')' in line:
+            line_args = line.split('.')
+            command_args = line_args[1].split('(')
+            id_arg = command_args[1].strip('")')
+            command_arg = command_args[0]
+            cls_arg = line_args[0]
+            new_line = " ".join([command_arg, cls_arg, id_arg])
+            arg = " ".join([cls_arg, id_arg])
+            return (command_arg, arg, new_line)
         else:
             return cmd.Cmd.parseline(self, line)
 
