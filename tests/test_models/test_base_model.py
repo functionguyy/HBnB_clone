@@ -51,15 +51,11 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.bm.created_at, self.bm.updated_at)
 
     def test_UpdatedAtAttributeIsDatetimeObject(self):
-        """
-        Test that updated_at is a string
-        """
+        """Test that updated_at instance attribute value is a datetime object"""
         self.assertIsInstance(self.bm.updated_at, datetime)
 
     def test_InstanceMethod_save(self):
-        """Test that the save instance method changes the value of updated_at
-        when it is called on the instance.
-        """
+        """Test that the save instance method changes the value of updated_at"""
         beforeSave = self.bm.updated_at
         self.bm.save()
         afterSave = self.bm.updated_at
@@ -77,7 +73,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(str(self.bm), output)
 
     def test_InstanceMethod_to_dict(self):
-        """Test that to_dict method returns a dictionary object"""
+        """Test that to_dict method return dictionary of instance attribute"""
         bm_obj = self.bm.to_dict()
         bm_obj_keys = list(bm_obj)
         self.assertIsInstance(bm_obj, dict, 'Not a dictionary instance')
@@ -93,6 +89,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(bm_obj['updated_at'], str, 'Not a string object')
         self.assertIsInstance(bm_obj['__class__'], str, 'Not a string object')
         self.assertIsInstance(bm_obj['id'], str, 'Not a string object')
+
 
 if __name__ == '__main__':
     unittest.main()
