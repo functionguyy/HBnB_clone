@@ -155,6 +155,14 @@ class HBNBCommand(cmd.Cmd):
                 print("** attribute name missing **")
         elif length == 3:
             print("** value missing **")
+        elif length > 3 and args[2].startswith('{') and arg.endswith('}'):
+            key = f"{args[0]}.{args[1]}"
+            start = arg.find('{')
+            end = arg.find('}')
+            dict_string = arg[start:end + 1]
+            attrs = eval(dict_string)
+            for attr, value in attrs.items():
+                storage.update(key, attr, value)
         else:
             key = f"{args[0]}.{args[1]}"
             attr = args[2]
@@ -182,7 +190,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
-
     # ----------- Class methods ------------- #
     def emptyline(self):
         """
@@ -199,6 +206,17 @@ class HBNBCommand(cmd.Cmd):
             cls_name = line_args[0]
             command_args = line_args[1].split('(')
             command = command_args[0]
+            args = command_args[1]
+            if '{' in args and '}' in args:
+                start = args.find('{')
+                end = args.find('}')
+                dict_string = args[start:end + 1]
+                new_line = args.replace(args[start:end + 1], '')
+                id_arg = new_line.strip('", )')
+                arg = "{} {} {}".format(cls_name, id_arg, dict_string)
+                new_line = "{} {}".format(command, arg)
+                return (command, arg, new_line)
+
             args_list = command_args[1].split()
             args_list = [arg.strip('",)') for arg in args_list]
             args = " ".join(args_list)
