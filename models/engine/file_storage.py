@@ -75,6 +75,8 @@ class FileStorage:
                 value = int(value)
             elif type(current_value) == float:
                 value = float(value)
+        if attr in ['age', 'height']:
+            value = int(value)
         setattr(self.__objects[key], attr, value)
         self.save()
 

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module contains the definition of the BaseModel class"""
-from datetime import datetime, timezone
+from datetime import datetime
 import uuid
 
 
@@ -34,7 +34,7 @@ class BaseModel(object):
     def save(self):
         """Updates the public attribute update_at with the current datetime"""
         from models import storage
-        setattr(self, 'updated_at', datetime.now(timezone.utc))
+        setattr(self, 'updated_at', datetime.now())
         storage.save()
 
     def to_dict(self):
